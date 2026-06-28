@@ -45,32 +45,33 @@ export default function Hero() {
 
   // Autoplay video after 2 seconds delay (matches preloader reveal)
   useEffect(() => {
-    const playTimer = setTimeout(() => {
+    let playTimer;
+    
+    const attemptPlay = () => {
       if (videoRef.current) {
         videoRef.current.currentTime = 0; // Ensure it starts from the absolute beginning
-        videoRef.current.muted = false; // Attempt to play with audio by default
+        videoRef.current.muted = false; // Attempt to play unmuted by default
         videoRef.current.play()
           .then(() => {
             setIsPlaying(true);
+            // Clean up the global click listener on successful play
+            document.removeEventListener("click", attemptPlay);
           })
           .catch((err) => {
-            console.log("Delayed play unmuted blocked. Falling back to muted autoplay:", err);
-            if (videoRef.current) {
-              videoRef.current.muted = true; // Fallback to muted so video plays visually
-              videoRef.current.play()
-                .then(() => {
-                  setIsPlaying(true);
-                })
-                .catch((mutedErr) => {
-                  console.log("Muted autoplay blocked too:", mutedErr);
-                  setIsPlaying(false);
-                });
-            }
+            console.log("Unmuted autoplay blocked by browser policy. Registering interaction trigger:", err);
+            setIsPlaying(false);
+            // Register interaction listener: plays unmuted on user's first click
+            document.addEventListener("click", attemptPlay, { once: true });
           });
       }
-    }, 2000);
+    };
 
-    return () => clearTimeout(playTimer);
+    playTimer = setTimeout(attemptPlay, 2000);
+
+    return () => {
+      clearTimeout(playTimer);
+      document.removeEventListener("click", attemptPlay);
+    };
   }, []);
 
   // HTML5 Canvas Fallback Particle Animation
@@ -209,7 +210,6 @@ export default function Hero() {
       {/* Video Background */}
       <video
         ref={videoRef}
-        muted
         playsInline
         onEnded={() => {
           setIsPlaying(false);
