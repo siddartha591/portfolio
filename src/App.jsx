@@ -75,6 +75,8 @@ function App() {
         link.href = "/resume.pdf";
         link.download = "Kandula_Siddartha_Resume.pdf";
         link.click();
+      } else if (key === "l") {
+        window.open("https://www.linkedin.com/in/kandula-siddartha/", "_blank");
       } else if (key === "p") {
         const sect = document.getElementById("projects");
         if (sect) sect.scrollIntoView({ behavior: "smooth" });
@@ -118,7 +120,7 @@ function App() {
 
           {/* Keyboard Shortcuts Floating Tip */}
           <div className="fixed bottom-6 left-6 z-[99] hidden lg:block bg-neutral-900/80 border border-white/5 px-3.5 py-2 rounded-2xl backdrop-blur-md shadow-lg select-none text-[10px] font-mono text-neutral-400">
-            <span className="text-brand-red font-bold">Keybinds:</span> <kbd className="bg-white/5 border border-white/10 px-1 py-0.5 rounded text-white">G</kbd> Hub // <kbd className="bg-white/5 border border-white/10 px-1 py-0.5 rounded text-white">R</kbd> esume // <kbd className="bg-white/5 border border-white/10 px-1 py-0.5 rounded text-white">P</kbd> rojects // <kbd className="bg-white/5 border border-white/10 px-1 py-0.5 rounded text-white">C</kbd> ontact
+            <span className="text-brand-red font-bold">Keybinds:</span> <kbd className="bg-white/5 border border-white/10 px-1 py-0.5 rounded text-white">G</kbd> Hub // <kbd className="bg-white/5 border border-white/10 px-1 py-0.5 rounded text-white">L</kbd> inkedIn // <kbd className="bg-white/5 border border-white/10 px-1 py-0.5 rounded text-white">R</kbd> esume // <kbd className="bg-white/5 border border-white/10 px-1 py-0.5 rounded text-white">P</kbd> rojects // <kbd className="bg-white/5 border border-white/10 px-1 py-0.5 rounded text-white">C</kbd> ontact
           </div>
 
           {/* Command Palette search overlay trigger */}
